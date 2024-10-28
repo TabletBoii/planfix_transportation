@@ -29,7 +29,7 @@ def main():
         session=session_121,
         url=os.getenv('PLANFIX_URL'),
         token=os.getenv('PLANFIX_BEARER_TOKEN'),
-        start_date="01-10-2023"
+        start_date="01-01-2024"
     )
     has_global_loader.get_task_list()
 
