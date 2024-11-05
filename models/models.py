@@ -51,6 +51,17 @@ class GlobalTransportation(Base):
     customer_vat = Column('customer_vat', String)
     carrier_vat = Column('carrier_vat', String)
     assigner = Column('assigner', String)
+    point_one = Column('point_one', String)
+    point_two = Column('point_two', String)
+    point_three = Column('point_three', String)
+    point_four = Column('point_four', String)
+    point_five = Column('point_five', String)
+    point_one_id = Column('point_one_id', Integer)
+    point_two_id = Column('point_two_id', Integer)
+    point_three_id = Column('point_three_id', Integer)
+    point_four_id = Column('point_four_id', Integer)
+    point_five_id = Column('point_five_id', Integer)
+    parent_claim = Column('parent_claim', String)
 
 
 class Expenses(Base):

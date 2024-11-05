@@ -52,7 +52,7 @@ class Utils:
                     "value": templates
                 },
             ],
-            "fields": f"id,name,status,assigner," + fields
+            "fields": f"id,name,status,assigner,parent," + fields
         }
 
         return request_body
@@ -77,6 +77,12 @@ class Utils:
             print(e)
             print(splited_task_name)
             return
+
+        if "parent" in task_item.keys():
+            task_dict["parent_claim"] = str(task_item["parent"]["id"])
+        else:
+            task_dict["parent_claim"] = ""
+
         for field in task_item["customFieldData"]:
             try:
                 match field["field"]["name"]:
@@ -99,11 +105,17 @@ class Utils:
                     case "Маршрут":
                         task_dict["customer_route"] = field["stringValue"]
                     case "Стоимость продажи (утвержденная)":
-                        task_dict["selling_price"] = int(field["value"]) if "value" in field else 0
+                        try:
+                            task_dict["selling_price"] = int(field["value"]) if "value" in field else 0
+                        except Exception as e:
+                            task_dict["selling_price"] = 0
                     case "Валюта продажи":
                         task_dict["selling_currency"] = field["stringValue"]
                     case "Стоимость покупки (утвержденная)":
-                        task_dict["buying_price"] = int(field["value"]) if "value" in field else 0
+                        try:
+                            task_dict["buying_price"] = int(field["value"]) if "value" in field else 0
+                        except Exception as e:
+                            task_dict["buying_price"] = 0
                     case "Валюта покупки":
                         task_dict["buying_currency"] = field["stringValue"]
                     case "Водитель":
@@ -127,7 +139,10 @@ class Utils:
                     case "Тип перевозки":
                         task_dict["shipping_type"] = field["stringValue"]
                     case "Вид подвижного состава":
-                        task_dict["rolling_stock_type"] = field["stringValue"]
+                        try:
+                            task_dict["rolling_stock_type"] = field["value"]["value"]
+                        except Exception as e:
+                            task_dict["rolling_stock_type"] = ""
                     case "Консолидация груза":
                         task_dict["cargo_consolidation"] = field["stringValue"]
                     case "Расстояние (в километрах)":
@@ -145,7 +160,10 @@ class Utils:
                     case "Собственное ТС (номер)":
                         task_dict["vehicle_number"] = field["stringValue"]
                     case "Ассистент логиста":
-                        task_dict["logistics_assistant"] = field["stringValue"]
+                        try:
+                            task_dict["logistics_assistant"] = field["value"]["value"]
+                        except Exception as e:
+                            task_dict["logistics_assistant"] = ""
                     case "Дата растаможки (ЗАФИКСИРОВАННАЯ)":
                         task_dict["clearance_date"] = field["stringValue"]
                     case "Дата конвертации (для перевозчиков, в случае валютных перевозок)":
@@ -154,6 +172,21 @@ class Utils:
                         task_dict["customer_vat"] = field["stringValue"]
                     case "НДС перевозчика (по договору)":
                         task_dict["carrier_vat"] = field["stringValue"]
+                    case "Точка 3":
+                        task_dict["point_three"] = field["value"]["value"]
+                        task_dict["point_three_id"] = field["value"]["id"]
+                    case "Точка 2":
+                        task_dict["point_two"] = field["value"]["value"]
+                        task_dict["point_two_id"] = field["value"]["id"]
+                    case "Точка 1":
+                        task_dict["point_one"] = field["value"]["value"]
+                        task_dict["point_one_id"] = field["value"]["id"]
+                    case "Точка 4":
+                        task_dict["point_four"] = field["value"]["value"]
+                        task_dict["point_four_id"] = field["value"]["id"]
+                    case "Точка 5":
+                        task_dict["point_five"] = field["value"]["value"]
+                        task_dict["point_five_id"] = field["value"]["id"]
             except Exception as e:
                 print(e)
                 print(field)

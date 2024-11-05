@@ -11,7 +11,11 @@ class HasGlobalTransportationFieldsEnum(Enum):
     CUSTOMER = "67174"  # Заказчик
     CUSTOMER_IIN = "86914"  # Заказчик (БИН/ИИН)
     CUSTOMER_ROUTE = "67108"  # Маршрут
-    # ТОЧКИ ПОСМОТРЕТЬ И ПРОПИСАТЬ ОТДЕЛЬНО
+    POINT_1 = "85690"
+    POINT_2 = "85692"
+    POINT_3 = "85694"
+    POINT_4 = "85696"
+    POINT_5 = "85698"
     SELLING_PRICE = "86182"  # Стоимость продажи
     SELLING_CURRENCY = "67116"  # Валюта продажи
     BUYING_PRICE = "86184"  # Стоимость покупки
@@ -56,3 +60,6 @@ class HasGlobalTransportationTemplateEnum(Enum):
     METAL_PROFILE_TRANSPORTATION = 317127  # Перевозка Завод Металл Профиль
     MAGNUM_TRANSPORTATION = 1197  # Перевозка Магнум
     EURASIAN_MACHINERY_TRANSPORTATION = 2361  # Перевозка Евразиан Машинери
+
+
+
