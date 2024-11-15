@@ -40,6 +40,8 @@ class HasExpensesLoader(ABC):
             current_offset=current_offset,
             get_task_list_url=self.get_task_list_url
         )
+        session_121.execute(text("TRUNCATE planfix_transportation;"))
+        session_121.commit()
         print("Database insertion started")
         self.has_db_session.execute(
             insert(GlobalTransportation),
