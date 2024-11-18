@@ -1,7 +1,7 @@
 from abc import abstractmethod, ABC
 from sqlalchemy.orm import Session
 import requests
-from sqlalchemy import insert
+from sqlalchemy import insert, text
 
 from models.models import GlobalTransportation
 
@@ -40,8 +40,8 @@ class HasExpensesLoader(ABC):
             current_offset=current_offset,
             get_task_list_url=self.get_task_list_url
         )
-        session_121.execute(text("TRUNCATE planfix_transportation;"))
-        session_121.commit()
+        self.has_db_session.execute(text("TRUNCATE planfix_transportation;"))
+        self.has_db_session.commit()
         print("Database insertion started")
         self.has_db_session.execute(
             insert(GlobalTransportation),
