@@ -62,4 +62,6 @@ class HasGlobalTransportationTemplateEnum(Enum):
     EURASIAN_MACHINERY_TRANSPORTATION = 2361  # Перевозка Евразиан Машинери
 
 
+class HasIndustrialSalesRevenueObjectsEnum(Enum):
+    SALES_REVENUE = 12505
 

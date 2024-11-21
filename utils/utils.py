@@ -119,7 +119,7 @@ class Utils:
                     case "Валюта покупки":
                         task_dict["buying_currency"] = field["stringValue"]
                     case "Водитель":
-                        task_dict["driver"] = field["stringValue"]
+                        task_dict["driver"] = field["value"]["name"]
                     case "Автотранспорт":
                         task_dict["vehicle"] = field["stringValue"]
                     case "Перевозчик (ЮЛ/ЧЛ)":
