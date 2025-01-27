@@ -1,6 +1,7 @@
 import re
 
-from enums.planfix_task_fields_enum import HasGlobalTransportationFieldsEnum, HasGlobalTransportationTemplateEnum
+from enums.planfix_task_fields_enum import HasGlobalTransportationFieldsEnum, HasGlobalTransportationTemplateEnum, \
+    HasIndustrialTransportationFieldsEnum
 
 
 class Utils:
@@ -17,6 +18,38 @@ class Utils:
         claim_id = digits_str[:6]
 
         return claim_id
+
+    @staticmethod
+    def industrial_from_request_body(current_date: str, offset: int, page_offset: int = 100) -> dict:
+        fields = ""
+        templates = []
+
+        for enum_index, field_enum in enumerate(HasIndustrialTransportationFieldsEnum):
+            if enum_index == len(HasIndustrialTransportationFieldsEnum):
+                fields += str(field_enum.value)
+            else:
+                fields += str(field_enum.value) + ","
+
+        for field_enum in HasIndustrialTransportationFieldsEnum:
+            templates.append(field_enum.value)
+
+        request_body = {
+            "offset": offset,
+            "pageSize": page_offset,
+            "filters": [
+                {
+                    "type": 12,
+                    "operator": "gt",
+                    "value": {
+                        "dateType": "otherDate",
+                        "dateValue": "31-07-2024"
+                    },
+                },
+            ],
+            "fields": "id,name,object,project," + fields
+        }
+
+        return request_body
 
     @staticmethod
     def global_form_request_body(current_date: str, offset: int, page_offset: int = 100) -> dict:
@@ -124,13 +157,13 @@ class Utils:
                         task_dict["vehicle"] = field["stringValue"]
                     case "Перевозчик (ЮЛ/ЧЛ)":
                         task_dict["carrier"] = field["stringValue"]
-                    case "ДЗ заказчику (УТВЕРЖДЕННОЕ)":
+                    case "Аванс полученный ЗАКАЗЧИК (УТВЕРЖДЕННОЕ)":
                         task_dict["debt_customer"] = field["stringValue"]
-                    case "Валюта ДЗ (ЗАКАЗЧИКА)":
+                    case "Валюта Аванса полученного (ЗАКАЗЧИК)":
                         task_dict["debt_currency_customer"] = field["stringValue"]
-                    case "ДЗ перевозчику (УТВЕРЖДЕННОЕ)":
+                    case "Аванс полученный ПЕРЕВОЗЧИК (УТВЕРЖДЕННОЕ)":
                         task_dict["debt_carrier"] = field["stringValue"]
-                    case "Валюта ДЗ (ПЕРЕВОЗЧИК)":
+                    case "Валюта Аванса полученного (ПЕРЕВОЗЧИК)":
                         task_dict["debt_currency_carrier"] = field["stringValue"]
                     case "Вид НДС (ЗАКАЗЧИКА)":
                         task_dict["customer_vat_type"] = field["stringValue"]
@@ -187,6 +220,55 @@ class Utils:
                     case "Точка 5":
                         task_dict["point_five"] = field["value"]["value"]
                         task_dict["point_five_id"] = field["value"]["id"]
+            except Exception as e:
+                print(e)
+                print(field)
+                pass
+
+        return task_dict
+
+    @staticmethod
+    def industrial_generate_task_dict(task_item: dict, organization: str) -> dict:
+
+        try:
+            task_dict = {
+                "claim_name": task_item["name"],
+                "claim_id": task_item["id"]
+            }
+
+        except Exception as e:
+            print(e)
+            print(task_item)
+            return
+
+        for field in task_item["customFieldData"]:
+            try:
+                match field["field"]["name"]:
+                    case "Наименование работ/услуг":
+                        task_dict["work_name"] = field["stringValue"]
+                    case "Период совершения оборота":
+                        task_dict["date_period"] = field["stringValue"]
+                    case "ДЗ заказчику (утвержденное)":
+                        task_dict["debt_customer_accepted"] = field["value"]
+                    case "Тип данных":
+                        task_dict["data_type"] = field["value"]
+                    case "Сумма продажи (утвержденная)":
+                        task_dict["sell_price_accepted"] = field["value"]
+                    case "Сумма покупки":
+                        task_dict["buy_price"] = field["value"]
+                    case "Детализация":
+                        task_dict["details"] = field["stringValue"]
+                    case "Сумма покупки (утвержденная)":
+                        task_dict["buy_price_accepted"] = field["value"]
+                    case "Заказчик":
+                        task_dict["customer"] = field["value"]["value"]
+                    case "Сумма продажи":
+                        task_dict["sell_price"] = field["value"]
+                    case "Валюта":
+                        task_dict["currency"] = field["stringValue"]
+                    case "ДЗ заказчику":
+                        task_dict["debt_customer"] = field["value"]
+
             except Exception as e:
                 print(e)
                 print(field)

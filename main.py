@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, text
 
 from app.global_loader import HasGlobalExpensesLoader
+from app.industrial_loader import HasIndustrialExpensesLoader
 
 
 def main():
@@ -22,8 +23,13 @@ def main():
     HasSession = sessionmaker(has_db_engine)
     session_121 = HasSession()
 
-    session_121.execute(text("TRUNCATE planfix_transportation;"))
-    session_121.commit()
+    has_industrial_loader = HasIndustrialExpensesLoader(
+        session=session_121,
+        url=os.getenv('PLANFIX_INDUSTRIAL_URL'),
+        token=os.getenv('PLANFIX_INDUSTRIAL_BEARER_TOKEN'),
+        start_date="01-08-2024"
+    )
+    has_industrial_loader.get_task_list()
 
     has_global_loader = HasGlobalExpensesLoader(
         session=session_121,

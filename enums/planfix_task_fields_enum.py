@@ -47,6 +47,21 @@ class HasGlobalTransportationFieldsEnum(Enum):
     CARRIER_VAT = "87360"  # НДС перевозчика (по договору)
 
 
+class HasIndustrialTransportationFieldsEnum(Enum):
+    CUSTOMER = "31181"  # Заказчик
+    DATE_PERIOD = "31139"  # Период совершения оборота
+    SELL_PRICE = "31183"  # Сумма продажи
+    SELL_PRICE_ACCEPTED = "31191"  # Сумма продажи (утвержденная)
+    CURRENCY = "22543"  # Валюта
+    BUY_PRICE = "31303"  # Сумма покупки
+    BUY_PRICE_ACCEPTED = "31305"  # Сумма покупки (утвержденная)
+    DEBT_CUSTOMER = "31311"  # ДЗ Заказчику
+    DEBT_CUSTOMER_ACCEPTED = "31315"  # ДЗ Заказчику (утвержденное)
+    WORK_NAME = "31185"  # Наименование работ/услуг
+    DETAILS = "22535"  # Детализация
+    DATA_TYPE = "31187"  # Тип данных
+
+
 class HasGlobalTransportationTemplateEnum(Enum):
     ECOVICE_CITY_TRANSPORTATION = 92659  # Перевозка ЭКОВИС по городу
     MULTIMODAL_TRANSPORTATION = 161749  # Мультимодальная Перевозка
@@ -64,4 +79,3 @@ class HasGlobalTransportationTemplateEnum(Enum):
 
 class HasIndustrialSalesRevenueObjectsEnum(Enum):
     SALES_REVENUE = 12505
-

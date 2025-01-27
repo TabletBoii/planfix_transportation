@@ -85,3 +85,23 @@ class Expenses(Base):
     has_photo_confirmation = Column('has_photo_confirmation', Boolean)
     initiator = Column("initiator", String)
     # template_name = Column("template_name", String)
+
+
+class IndustrialTransportation(Base):
+    __tablename__ = "industrial_transportation"
+
+    id = Column('id', Integer, primary_key=True, autoincrement=True)
+    work_name = Column('work_name', String)
+    date_period = Column('date_period', String)
+    debt_customer_accepted = Column('debt_customer_accepted', Integer)
+    data_type = Column('data_type', String)
+    sell_price_accepted = Column('sell_price_accepted', Integer)
+    buy_price = Column('buy_price', Integer)
+    details = Column('details', String)
+    buy_price_accepted = Column('buy_price_accepted', Integer)
+    customer = Column('customer', String)
+    sell_price = Column('sell_price', Integer)
+    currency = Column('currency', String)
+    debt_customer = Column('debt_customer', Integer)
+    claim_name = Column('claim_name', String)
+    claim_id = Column('claim_id', Integer)
